@@ -17,8 +17,18 @@ pygame.display.set_caption("Targetz Shooter")
 
 # Classe do Botão
 class Button:
+    def __init__(self, x, y, image_path):
+        self.image = pygame.image.load(image_path)  
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
 
+    def draw(self, screen):
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            pygame.draw.rect(screen, (0, 200, 0), self.rect, 5)
+        screen.blit(self.image, self.rect)
 # Classe do Alvo
+
 class Target(pygame.sprite.Sprite):
 
 # Classe do Jogo
