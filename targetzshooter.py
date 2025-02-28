@@ -128,8 +128,35 @@ class Game:
 
         pygame.quit()
 
-# Função que exibe a tela de Game Over
-def game_over():
+    # Função que exibe a tela de Game Over
+    def game_over(self):
+        game_over_running = True
+        game_over_bg = pygame.image.load('gameover.png') 
+        game_over_bg = pygame.transform.scale(game_over_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+        menu_button = Button(SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT - 300, 'menubutton.png')
+
+        while game_over_running:
+            screen.blit(game_over_bg, (0, 0))  
+            menu_button.draw(screen) 
+
+            # Exibe a pontuação no centro da tela
+            score_text = font_game_over.render(f"Pontuação: {self.score}", True, WHITE)
+            screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, SCREEN_HEIGHT // 2 - score_text.get_height() // 2))
+
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_over_running = False
+                    pygame.quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if menu_button.rect.collidepoint(pygame.mouse.get_pos()):
+                        game_over_running = False
+                        return False
+
+
+
 
 
 # Função que exibe a tela de créditos
