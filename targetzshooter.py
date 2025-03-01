@@ -140,8 +140,8 @@ class Game:
             screen.blit(game_over_bg, (0, 0))  
             menu_button.draw(screen) 
 
-            # Exibe a pontuação no centro da tela
-            score_text = font_game_over.render(f"Pontuação: {self.score}", True, WHITE)
+            # Exibe a pontuação no centro da tela
+            score_text = font_game_over.render(f"Pontuação: {self.score}", True, WHITE)
             screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, SCREEN_HEIGHT // 2 - score_text.get_height() // 2))
 
             pygame.display.flip()
@@ -153,11 +153,7 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if menu_button.rect.collidepoint(pygame.mouse.get_pos()):
                         game_over_running = False
-                        return False
-
-
-
-
+                        return False 
 
 # Função que exibe a tela de créditos
 def credits_screen():
@@ -180,34 +176,73 @@ def credits_screen():
 
     return False  
 
-
 # Função que exibe a tela de dificuldade
-    def difficulty_screen():
-        difficulty_running = True
-        difficulty_bg = pygame.image.load('difficulty.png')
-        difficulty_bg = pygame.transform.scale(difficulty_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        normal_button = Button(274, 351, 'normalbutton.png')
-        hard_button = Button(673, 353, 'hardbutton.png')
+def difficulty_screen():
+    difficulty_running = True
+    difficulty_bg = pygame.image.load('difficulty.png')
+    difficulty_bg = pygame.transform.scale(difficulty_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    normal_button = Button(274, 351, 'normalbutton.png')
+    hard_button = Button(673, 353, 'hardbutton.png')
 
-        while difficulty_running:
-            screen.blit(difficulty_bg, (0, 0))
-            normal_button.draw(screen)
-            hard_button.draw(screen)
-            pygame.display.flip()
+    while difficulty_running:
+        screen.blit(difficulty_bg, (0, 0))
+        normal_button.draw(screen)
+        hard_button.draw(screen)
+        pygame.display.flip()
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    difficulty_running = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if normal_button.rect.collidepoint(pygame.mouse.get_pos()):
-                        return 'Normal'  
-                    if hard_button.rect.collidepoint(pygame.mouse.get_pos()):
-                        return 'Hard'  
-        pygame.quit()
-        return False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                difficulty_running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if normal_button.rect.collidepoint(pygame.mouse.get_pos()):
+                    return 'Normal'  
+                if hard_button.rect.collidepoint(pygame.mouse.get_pos()):
+                    return 'Hard'  
+    pygame.quit()
+    return False 
 
 # Função que exibe o menu
 def main_menu():
+    menu_running = True
+    menu_bg = pygame.image.load('menu.png')  
+    menu_bg = pygame.transform.scale(menu_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
+    play_button = Button(498, 326, 'playbutton.png') 
+    credits_button = Button(496, 462, 'creditsbutton.png')
+
+    while menu_running:
+        screen.blit(menu_bg, (0, 0))
+        play_button.draw(screen)
+        credits_button.draw(screen)
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                menu_running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if play_button.rect.collidepoint(pygame.mouse.get_pos()):
+                    return 'Play'
+                if credits_button.rect.collidepoint(pygame.mouse.get_pos()):
+                    credits_screen()
+    pygame.quit()
+    return False  
 
 def main():
+    while True:
+        if main_menu() == 'Play':
+            difficulty = difficulty_screen()
+
+            if not difficulty:
+                break
+            
+            game = Game(difficulty)
+            game_result = game.run()
+
+            if not game_result:
+                continue
+
+    pygame.quit()
+
+# Inicia o jogo
+if __name__ == "__main__":
+    main()
