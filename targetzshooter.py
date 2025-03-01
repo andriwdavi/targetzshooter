@@ -161,6 +161,24 @@ class Game:
 
 # Função que exibe a tela de créditos
 def credits_screen():
+    credits_running = True
+    credits_bg = pygame.image.load('credits.png')
+    credits_bg = pygame.transform.scale(credits_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    
+    while credits_running:
+        screen.blit(credits_bg, (0, 0))
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                    credits_running = False
+                    pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    credits_running = False
+                    return False
+
+
+    return False  
 
 
 # Função que exibe a tela de dificuldade
