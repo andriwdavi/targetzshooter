@@ -164,8 +164,29 @@ def credits_screen():
 
 
 # Função que exibe a tela de dificuldade
-def difficulty_screen():
+    def difficulty_screen():
+        difficulty_running = True
+        difficulty_bg = pygame.image.load('difficulty.png')
+        difficulty_bg = pygame.transform.scale(difficulty_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        normal_button = Button(274, 351, 'normalbutton.png')
+        hard_button = Button(673, 353, 'hardbutton.png')
 
+        while difficulty_running:
+            screen.blit(difficulty_bg, (0, 0))
+            normal_button.draw(screen)
+            hard_button.draw(screen)
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    difficulty_running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if normal_button.rect.collidepoint(pygame.mouse.get_pos()):
+                        return 'Normal'  
+                    if hard_button.rect.collidepoint(pygame.mouse.get_pos()):
+                        return 'Hard'  
+        pygame.quit()
+        return False
 
 # Função que exibe o menu
 def main_menu():
